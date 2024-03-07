@@ -1,9 +1,9 @@
 import axios from 'axios';
-import {
-  RegisterData, Response, ThreadData, UserCredentials,
-} from './types';
+import { IUserRegisterData, IUserCredentials } from '../types/user';
+import IResponse from '../types/response';
+import { IThreadData } from '../types/threads';
 
-const { BASE_URL } = process.env;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 function putAccessToken(token: string) {
   localStorage.setItem('accessToken', token);
@@ -17,7 +17,7 @@ const headers = {
   Authorization: `Bearer ${getAccessToken()}`,
 };
 
-const getErrorMessage = (error: unknown): string => {
+export const getErrorMessage = (error: unknown): string => {
   let message;
   if (error instanceof Error) {
     message = error.message;
@@ -32,7 +32,7 @@ const getErrorMessage = (error: unknown): string => {
   return message;
 };
 
-async function register(registerData: RegisterData): Promise<Response> {
+async function register(registerData: IUserRegisterData): Promise<IResponse> {
   try {
     const response = await axios.post(`${BASE_URL}/register`, registerData);
     const { status, message, data } = response.data;
@@ -47,7 +47,7 @@ async function register(registerData: RegisterData): Promise<Response> {
   }
 }
 
-async function login(loginData: UserCredentials): Promise<Response> {
+async function login(loginData: IUserCredentials): Promise<IResponse> {
   try {
     const response = await axios.post(`${BASE_URL}/login`, loginData);
     const { status, message, data } = response.data;
@@ -62,7 +62,7 @@ async function login(loginData: UserCredentials): Promise<Response> {
   }
 }
 
-async function getAllUsers(): Promise<Response> {
+async function getAllUsers(): Promise<IResponse> {
   try {
     const response = await axios.get(`${BASE_URL}/users`);
     const { status, message, data } = response.data;
@@ -77,7 +77,7 @@ async function getAllUsers(): Promise<Response> {
   }
 }
 
-async function getOwnProfile(): Promise<Response> {
+async function getOwnProfile(): Promise<IResponse> {
   try {
     const response = await axios.get(`${BASE_URL}/users/me`, { headers });
     const { status, message, data } = response.data;
@@ -92,7 +92,7 @@ async function getOwnProfile(): Promise<Response> {
   }
 }
 
-async function createThread(createThreadData: ThreadData): Promise<Response> {
+async function createThread(createThreadData: IThreadData): Promise<IResponse> {
   try {
     const response = await axios.post(`${BASE_URL}/threads`, createThreadData, { headers });
     const { status, message } = response.data;
@@ -107,7 +107,7 @@ async function createThread(createThreadData: ThreadData): Promise<Response> {
   }
 }
 
-async function getAllThreads(): Promise<Response> {
+async function getAllThreads(): Promise<IResponse> {
   try {
     const response = await axios.get(`${BASE_URL}/threads`);
     const { status, message, data } = response.data;
@@ -122,7 +122,7 @@ async function getAllThreads(): Promise<Response> {
   }
 }
 
-async function getDetailThread(id: string): Promise<Response> {
+async function getDetailThread(id: string): Promise<IResponse> {
   try {
     const response = await axios.get(`${BASE_URL}/threads/${id}`);
     const { status, message, data } = response.data;
@@ -137,7 +137,7 @@ async function getDetailThread(id: string): Promise<Response> {
   }
 }
 
-async function createComment(id: string, content: string): Promise<Response> {
+async function createComment(id: string, content: string): Promise<IResponse> {
   try {
     const response = await axios.post(`${BASE_URL}/threads/${id}/comments`, content, { headers });
     const { status, message } = response.data;
@@ -152,7 +152,7 @@ async function createComment(id: string, content: string): Promise<Response> {
   }
 }
 
-async function upVoteThread(id: string): Promise<Response> {
+async function upVoteThread(id: string): Promise<IResponse> {
   try {
     const response = await axios.post(`${BASE_URL}/threads/${id}/up-vote`, { headers });
     const { status, message } = response.data;
@@ -167,7 +167,7 @@ async function upVoteThread(id: string): Promise<Response> {
   }
 }
 
-async function downVoteThread(id: string): Promise<Response> {
+async function downVoteThread(id: string): Promise<IResponse> {
   try {
     const response = await axios.post(`${BASE_URL}/threads/${id}/down-vote`, { headers });
     const { status, message } = response.data;
@@ -182,7 +182,7 @@ async function downVoteThread(id: string): Promise<Response> {
   }
 }
 
-async function neutralVoteThread(id: string): Promise<Response> {
+async function neutralVoteThread(id: string): Promise<IResponse> {
   try {
     const response = await axios.post(`${BASE_URL}/threads/${id}/neutral-vote`, { headers });
     const { status, message } = response.data;
@@ -197,7 +197,7 @@ async function neutralVoteThread(id: string): Promise<Response> {
   }
 }
 
-async function upVoteComment(idThread: string, idComment: string): Promise<Response> {
+async function upVoteComment(idThread: string, idComment: string): Promise<IResponse> {
   try {
     const response = await axios.post(`${BASE_URL}/threads/${idThread}/comments/${idComment}/up-vote`, { headers });
     const { status, message } = response.data;
@@ -212,7 +212,7 @@ async function upVoteComment(idThread: string, idComment: string): Promise<Respo
   }
 }
 
-async function downVoteComment(idThread: string, idComment: string): Promise<Response> {
+async function downVoteComment(idThread: string, idComment: string): Promise<IResponse> {
   try {
     const response = await axios.post(`${BASE_URL}/threads/${idThread}/comments/${idComment}/down-vote`, { headers });
     const { status, message } = response.data;
@@ -227,7 +227,7 @@ async function downVoteComment(idThread: string, idComment: string): Promise<Res
   }
 }
 
-async function neutralVoteComment(idThread: string, idComment: string): Promise<Response> {
+async function neutralVoteComment(idThread: string, idComment: string): Promise<IResponse> {
   try {
     const response = await axios.post(`${BASE_URL}/threads/${idThread}/comments/${idComment}/neutral-vote`, { headers });
     const { status, message } = response.data;
@@ -242,7 +242,7 @@ async function neutralVoteComment(idThread: string, idComment: string): Promise<
   }
 }
 
-async function getLeaderboards(): Promise<Response> {
+async function getLeaderboards(): Promise<IResponse> {
   try {
     const response = await axios.post(`${BASE_URL}/leaderboards`);
     const { status, message, data } = response.data;

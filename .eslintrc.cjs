@@ -36,5 +36,7 @@ module.exports = {
     'react/jsx-uses-react': 'off',
     'import/no-extraneous-dependencies': 'off',
     'no-console': 'off',
+    '@typescript-eslint/no-use-before-define': 'off',
+    'no-param-reassign': 'off',
   },
 };
