@@ -4,7 +4,18 @@
 
 @layer base {
     html {
-      font-family: "Open Sans", system-ui, sans-serif;
+      font-family: "Open Sans", sans-serif;
       scroll-behavior: smooth;
     }
     }
+@layer components{
+  .background{
+    @apply  bg-slate-50 dark:bg-neutral-950
+  }
+  .text{
+    @apply  dark:text-white text-neutral-950
+  }
+  .btn-nav{
+    @apply hover:bg-neutral-200 dark:hover:bg-neutral-900 p-2 rounded-md
+  }
+}

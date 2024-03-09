@@ -38,5 +38,6 @@ module.exports = {
     'no-console': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     'no-param-reassign': 'off',
+    'jsx-a11y/control-has-associated-label': 'off',
   },
 };

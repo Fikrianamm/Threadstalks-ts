@@ -3,6 +3,7 @@ import authUserSlice, { asyncSetAuthUser, asyncUnsetAuthUser } from './authUser/
 import isPreloadSlice, { asyncPreloadProcess } from './isPreload/isPreloadSlice';
 import usersSlice, { asyncRegisterUser } from './users/usersSlice';
 import threadsSlice, { asyncReceiveThreads } from './threads/threadsSlice';
+import themeSlice from './theme/themeSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     isPreload: isPreloadSlice,
     threads: threadsSlice,
     users: usersSlice,
+    theme: themeSlice,
   },
 });
 
