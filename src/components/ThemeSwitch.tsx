@@ -12,7 +12,7 @@ export default function ThemeSwitch() {
   }
 
   return (
-    <button type="button" onClick={onSwitch} className="outline-none btn-nav">
+    <button type="button" onClick={onSwitch} className="outline-none btn-nav" title="Change theme">
       {theme === 'dark' ? <MdOutlineLightMode size={24} /> : <MdOutlineDarkMode size={24} />}
     </button>
   );

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { hideLoading, showLoading } from 'react-redux-loading-bar';
 import { IThreadItem } from '../../types/threads';
 import { getAllThreads, getErrorMessage } from '../../utils/api';
 
@@ -14,15 +15,19 @@ const initialState: IInitialState = {
   data: null,
 };
 
-export const asyncReceiveThreads = createAsyncThunk('threads/asyncReceiveThreads', async () => {
+export const asyncReceiveThreads = createAsyncThunk('threads/asyncReceiveThreads', async (_, { dispatch }) => {
+  dispatch(showLoading());
   try {
     const { message, threads } = await getAllThreads();
     if (threads) {
+      dispatch(hideLoading());
       return threads;
     }
+    dispatch(hideLoading());
     throw new Error(message);
   } catch (error) {
     const message = getErrorMessage(error);
+    dispatch(hideLoading());
     throw new Error(message);
   }
 });
@@ -41,4 +46,5 @@ const threadsSlice = createSlice({
   },
 });
 
+export const { setReceiveThreads } = threadsSlice.actions;
 export default threadsSlice.reducer;

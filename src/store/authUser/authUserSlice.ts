@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { hideLoading, showLoading } from 'react-redux-loading-bar';
 import {
   getErrorMessage, getOwnProfile, login, putAccessToken,
 } from '../../utils/api';
@@ -18,7 +19,8 @@ const initialState: IInitialState = {
 
 export const asyncSetAuthUser = createAsyncThunk(
   'authUser/asyncSetAuthUser',
-  async (loginData: IUserCredentials) => {
+  async (loginData: IUserCredentials, { dispatch }) => {
+    dispatch(showLoading());
     try {
       const { token } = await login(loginData);
       putAccessToken(token as string);
@@ -31,12 +33,14 @@ export const asyncSetAuthUser = createAsyncThunk(
       const message = getErrorMessage(error);
       throw new Error(message);
     }
+    dispatch(hideLoading());
   },
 );
 
 export const asyncUnsetAuthUser = createAsyncThunk(
   'authUser/asyncUnsetAuthUser',
   async (_, { dispatch }) => {
+    dispatch(showLoading());
     try {
       dispatch(unsetAuthUser());
       putAccessToken('');
@@ -44,6 +48,7 @@ export const asyncUnsetAuthUser = createAsyncThunk(
       const message = getErrorMessage(error);
       throw new Error(message);
     }
+    dispatch(hideLoading());
   },
 );
 

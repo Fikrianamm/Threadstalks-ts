@@ -15,7 +15,7 @@ interface IProps {
 
 export default function LayoutNavigationBottom({ children }: IProps) {
   return (
-    <div className="flex flex-col background text">
+    <div className="min-h-dvh flex flex-col background text">
       <Header />
       <main className="flex-1 pb-20 pt-6 max-w-screen-sm mx-auto px-4">
         {children}

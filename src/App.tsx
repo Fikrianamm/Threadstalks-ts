@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { HOME } from './routes/routeConstant';
 import HomePage from './pages/HomePage';
 import { useAppSelector } from './hooks/store';
+import Loading from './components/Loading';
 
 function App() {
   const theme = useAppSelector((state) => state.theme);
@@ -16,11 +17,14 @@ function App() {
   }, [theme]);
 
   return (
-    <Routes>
-      <Route path={HOME} Component={HomePage} />
-      <Route path={HOME} Component={HomePage} />
-      <Route path={HOME} Component={HomePage} />
-    </Routes>
+    <>
+      <Loading />
+      <Routes>
+        <Route path={HOME} Component={HomePage} />
+        <Route path={HOME} Component={HomePage} />
+        <Route path={HOME} Component={HomePage} />
+      </Routes>
+    </>
   );
 }
 

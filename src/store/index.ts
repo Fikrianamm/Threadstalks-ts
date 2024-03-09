@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authUserSlice, { asyncSetAuthUser, asyncUnsetAuthUser } from './authUser/authUserSlice';
-import isPreloadSlice, { asyncPreloadProcess } from './isPreload/isPreloadSlice';
-import usersSlice, { asyncRegisterUser } from './users/usersSlice';
-import threadsSlice, { asyncReceiveThreads } from './threads/threadsSlice';
+import { loadingBarReducer } from 'react-redux-loading-bar';
+import authUserSlice from './authUser/authUserSlice';
+import isPreloadSlice from './isPreload/isPreloadSlice';
+import usersSlice from './users/usersSlice';
+import threadsSlice from './threads/threadsSlice';
 import themeSlice from './theme/themeSlice';
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
     threads: threadsSlice,
     users: usersSlice,
     theme: themeSlice,
+    loadingBar: loadingBarReducer,
   },
 });
 

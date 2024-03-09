@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { hideLoading, showLoading } from 'react-redux-loading-bar';
 import { getErrorMessage, getOwnProfile } from '../../utils/api';
 import { setAuthUser } from '../authUser/authUserSlice';
 
 const initialState: boolean = true;
 
 export const asyncPreloadProcess = createAsyncThunk('isPreload/asyncPreloadProcess', async (_, { dispatch }) => {
+  dispatch(showLoading());
   try {
     const { message, user } = await getOwnProfile();
     if (user) {
@@ -16,6 +18,7 @@ export const asyncPreloadProcess = createAsyncThunk('isPreload/asyncPreloadProce
     const message = getErrorMessage(error);
     throw new Error(message);
   }
+  dispatch(hideLoading());
 });
 
 const isPreloadSlice = createSlice({
