@@ -17,8 +17,9 @@ export const asyncPreloadProcess = createAsyncThunk('isPreload/asyncPreloadProce
   } catch (error) {
     const message = getErrorMessage(error);
     throw new Error(message);
+  } finally {
+    dispatch(hideLoading());
   }
-  dispatch(hideLoading());
 });
 
 const isPreloadSlice = createSlice({

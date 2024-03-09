@@ -32,8 +32,9 @@ export const asyncSetAuthUser = createAsyncThunk(
     } catch (error) {
       const message = getErrorMessage(error);
       throw new Error(message);
+    } finally {
+      dispatch(hideLoading());
     }
-    dispatch(hideLoading());
   },
 );
 
@@ -47,8 +48,9 @@ export const asyncUnsetAuthUser = createAsyncThunk(
     } catch (error) {
       const message = getErrorMessage(error);
       throw new Error(message);
+    } finally {
+      dispatch(hideLoading());
     }
-    dispatch(hideLoading());
   },
 );
 

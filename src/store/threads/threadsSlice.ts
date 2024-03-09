@@ -20,15 +20,14 @@ export const asyncReceiveThreads = createAsyncThunk('threads/asyncReceiveThreads
   try {
     const { message, threads } = await getAllThreads();
     if (threads) {
-      dispatch(hideLoading());
       return threads;
     }
-    dispatch(hideLoading());
     throw new Error(message);
   } catch (error) {
     const message = getErrorMessage(error);
-    dispatch(hideLoading());
     throw new Error(message);
+  } finally {
+    dispatch(hideLoading());
   }
 });
 

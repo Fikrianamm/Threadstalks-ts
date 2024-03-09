@@ -4,7 +4,7 @@ import {
 } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import {
-  HOME, LEADERBOARDS, LOGIN, PROFILE, THREADCREATE,
+  HOME, LEADERBOARDS, LOGIN, PROFILE, CREATETHREAD,
 } from '../routes/routeConstant';
 import ThemeSwitch from './ThemeSwitch';
 import { useAppSelector } from '../hooks/store';
@@ -20,7 +20,7 @@ export default function Navigation() {
         <Link to={LEADERBOARDS} className="btn-nav" title="Leaderboards">
           <MdOutlineLeaderboard size={24} />
         </Link>
-        <Link to={THREADCREATE} className="btn-nav" title="New thread">
+        <Link to={CREATETHREAD} className="btn-nav" title="New thread">
           <FaPlus size={24} />
         </Link>
         {data ? (

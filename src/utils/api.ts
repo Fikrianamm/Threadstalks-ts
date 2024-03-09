@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import { IUserRegisterData, IUserCredentials } from '../types/user';
 import IResponse from '../types/response';
@@ -13,9 +14,16 @@ function getAccessToken() {
   return localStorage.getItem('accessToken');
 }
 
-const headers = {
-  Authorization: `Bearer ${getAccessToken()}`,
-};
+function fetchWithToken(method:'get' | 'post', url?:string, data:any = {}) {
+  return axios({
+    method,
+    url: `${BASE_URL}${url}`,
+    data,
+    headers: {
+      Authorization: `Bearer ${getAccessToken()}`,
+    },
+  });
+}
 
 export const getErrorMessage = (error: unknown): string => {
   let message;
@@ -79,7 +87,7 @@ async function getAllUsers(): Promise<IResponse> {
 
 async function getOwnProfile(): Promise<IResponse> {
   try {
-    const response = await axios.get(`${BASE_URL}/users/me`, { headers });
+    const response = await fetchWithToken('get', '/users/me');
     const { status, message, data } = response.data;
     if (status !== 'success') {
       throw new Error(message);
@@ -94,7 +102,7 @@ async function getOwnProfile(): Promise<IResponse> {
 
 async function createThread(createThreadData: IThreadData): Promise<IResponse> {
   try {
-    const response = await axios.post(`${BASE_URL}/threads`, createThreadData, { headers });
+    const response = await fetchWithToken('post', '/threads', createThreadData);
     const { status, message } = response.data;
     if (status !== 'success') {
       throw new Error(message);
@@ -139,7 +147,7 @@ async function getDetailThread(id: string): Promise<IResponse> {
 
 async function createComment(id: string, content: string): Promise<IResponse> {
   try {
-    const response = await axios.post(`${BASE_URL}/threads/${id}/comments`, content, { headers });
+    const response = await fetchWithToken('post', `/threads/${id}/comments`, content);
     const { status, message } = response.data;
     if (status !== 'success') {
       throw new Error(message);
@@ -154,7 +162,7 @@ async function createComment(id: string, content: string): Promise<IResponse> {
 
 async function upVoteThread(id: string): Promise<IResponse> {
   try {
-    const response = await axios.post(`${BASE_URL}/threads/${id}/up-vote`, { headers });
+    const response = await fetchWithToken('post', `/threads/${id}/up-vote`);
     const { status, message } = response.data;
     if (status !== 'success') {
       throw new Error(message);
@@ -169,7 +177,7 @@ async function upVoteThread(id: string): Promise<IResponse> {
 
 async function downVoteThread(id: string): Promise<IResponse> {
   try {
-    const response = await axios.post(`${BASE_URL}/threads/${id}/down-vote`, { headers });
+    const response = await fetchWithToken('post', `/threads/${id}/down-vote`);
     const { status, message } = response.data;
     if (status !== 'success') {
       throw new Error(message);
@@ -184,7 +192,7 @@ async function downVoteThread(id: string): Promise<IResponse> {
 
 async function neutralVoteThread(id: string): Promise<IResponse> {
   try {
-    const response = await axios.post(`${BASE_URL}/threads/${id}/neutral-vote`, { headers });
+    const response = await fetchWithToken('post', `/threads/${id}/neutral-vote`);
     const { status, message } = response.data;
     if (status !== 'success') {
       throw new Error(message);
@@ -199,7 +207,7 @@ async function neutralVoteThread(id: string): Promise<IResponse> {
 
 async function upVoteComment(idThread: string, idComment: string): Promise<IResponse> {
   try {
-    const response = await axios.post(`${BASE_URL}/threads/${idThread}/comments/${idComment}/up-vote`, { headers });
+    const response = await fetchWithToken('post', `/threads/${idThread}/comments/${idComment}/up-vote`);
     const { status, message } = response.data;
     if (status !== 'success') {
       throw new Error(message);
@@ -214,7 +222,7 @@ async function upVoteComment(idThread: string, idComment: string): Promise<IResp
 
 async function downVoteComment(idThread: string, idComment: string): Promise<IResponse> {
   try {
-    const response = await axios.post(`${BASE_URL}/threads/${idThread}/comments/${idComment}/down-vote`, { headers });
+    const response = await fetchWithToken('post', `/threads/${idThread}/comments/${idComment}/down-vote`);
     const { status, message } = response.data;
     if (status !== 'success') {
       throw new Error(message);
@@ -229,7 +237,7 @@ async function downVoteComment(idThread: string, idComment: string): Promise<IRe
 
 async function neutralVoteComment(idThread: string, idComment: string): Promise<IResponse> {
   try {
-    const response = await axios.post(`${BASE_URL}/threads/${idThread}/comments/${idComment}/neutral-vote`, { headers });
+    const response = await fetchWithToken('post', `/threads/${idThread}/comments/${idComment}/neutral-vote`);
     const { status, message } = response.data;
     if (status !== 'success') {
       throw new Error(message);

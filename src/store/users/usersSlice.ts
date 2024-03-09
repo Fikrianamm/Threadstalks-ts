@@ -16,8 +16,9 @@ export const asyncRegisterUser = createAsyncThunk('users/register', async (regis
   } catch (error) {
     const message = getErrorMessage(error);
     throw new Error(message);
+  } finally {
+    dispatch(hideLoading());
   }
-  dispatch(hideLoading());
 });
 
 const usersSlice = createSlice({
