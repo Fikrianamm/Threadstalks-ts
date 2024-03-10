@@ -8,11 +8,7 @@ const initialState: IUserProfile[] = [];
 export const asyncRegisterUser = createAsyncThunk('users/register', async (registerData : IUserRegisterData, { dispatch }) => {
   dispatch(showLoading());
   try {
-    const { message, user } = await register(registerData);
-    if (user) {
-      return user;
-    }
-    throw new Error(message);
+    await register(registerData);
   } catch (error) {
     const message = getErrorMessage(error);
     throw new Error(message);

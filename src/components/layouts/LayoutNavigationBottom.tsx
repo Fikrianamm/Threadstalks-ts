@@ -17,7 +17,7 @@ export default function LayoutNavigationBottom({ children }: IProps) {
   return (
     <div className="min-h-dvh flex flex-col background text">
       <Header />
-      <main className="flex-1 pb-20 pt-6 max-w-screen-sm mx-auto px-4">
+      <main className="flex-1 pb-20 pt-6 max-w-screen-sm w-full mx-auto px-4">
         {children}
       </main>
       <Navigation />

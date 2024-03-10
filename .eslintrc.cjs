@@ -39,5 +39,6 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': 'off',
     'no-param-reassign': 'off',
     'jsx-a11y/control-has-associated-label': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
   },
 };

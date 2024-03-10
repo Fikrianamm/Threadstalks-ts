@@ -1,10 +1,11 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FormEvent } from 'react';
 import Button from '../components/Button';
 import LayoutNavigationBack from '../components/layouts/LayoutNavigationBack';
 import { useAppDispatch } from '../hooks/store';
 import useInput from '../hooks/useInput';
 import { asyncSetAuthUser } from '../store/authUser/authUserSlice';
+import { REGISTER } from '../routes/routeConstant';
 
 export default function LoginPage() {
   const [email, onChangeEmail] = useInput();
@@ -27,6 +28,11 @@ export default function LoginPage() {
           <input type="password" className="input" placeholder="Password" value={password} onChange={onChangePassword} required />
           <Button>Login</Button>
         </form>
+        <p className="text-sm text-neutral-500 text-center">
+          Belum punya akun?
+          {' '}
+          <Link to={REGISTER} className="underline hover:text-neutral-600">Daftar di sini</Link>
+        </p>
       </div>
     </LayoutNavigationBack>
   );
