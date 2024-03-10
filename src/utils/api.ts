@@ -252,7 +252,7 @@ async function neutralVoteComment(idThread: string, idComment: string): Promise<
 
 async function getLeaderboards(): Promise<IResponse> {
   try {
-    const response = await axios.post(`${BASE_URL}/leaderboards`);
+    const response = await axios.get(`${BASE_URL}/leaderboards`);
     const { status, message, data } = response.data;
     if (status !== 'success') {
       throw new Error(message);

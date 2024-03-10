@@ -5,6 +5,7 @@ import isPreloadSlice from './isPreload/isPreloadSlice';
 import usersSlice from './users/usersSlice';
 import threadsSlice from './threads/threadsSlice';
 import themeSlice from './theme/themeSlice';
+import leaderboardsSlice from './leaderboards/leaderboardsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     threads: threadsSlice,
     users: usersSlice,
     theme: themeSlice,
+    leaderboards: leaderboardsSlice,
     loadingBar: loadingBarReducer,
   },
 });
