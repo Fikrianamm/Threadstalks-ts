@@ -7,8 +7,8 @@ function Header() {
   return (
     <div className="w-full flex justify-center items-center py-4 background text">
       <div className="max-w-screen-sm w-full flex gap-6 justify-start items-center px-4">
-        <IoMdArrowRoundBack size={28} onClick={() => navigate(-1)} />
-        <h1 className="font-oleoScript text-2xl">Threadstalks</h1>
+        <IoMdArrowRoundBack size={28} onClick={() => navigate(-1)} className="hover:opacity-80 cursor-pointer" />
+        <h1 className="font-oleoScript text-2xl cursor-default">Threadstalks</h1>
       </div>
     </div>
   );

@@ -3,26 +3,16 @@ import { hideLoading, showLoading } from 'react-redux-loading-bar';
 import { IThreadItem } from '../../types/threads';
 import { getAllThreads, getErrorMessage } from '../../utils/api';
 
-interface IInitialState {
-  status: 'pending' | 'success' | 'fail' | 'idle',
-  message: string | null,
-  data: IThreadItem[] | null
-}
-
-const initialState: IInitialState = {
-  status: 'idle',
-  message: null,
-  data: null,
-};
+const initialState: IThreadItem[] = [];
 
 export const asyncReceiveThreads = createAsyncThunk('threads/asyncReceiveThreads', async (_, { dispatch }) => {
   dispatch(showLoading());
   try {
     const { message, threads } = await getAllThreads();
-    if (threads) {
-      return threads;
+    if (threads === undefined) {
+      throw new Error(message);
     }
-    throw new Error(message);
+    dispatch(setReceiveThreads(threads));
   } catch (error) {
     const message = getErrorMessage(error);
     throw new Error(message);
@@ -35,13 +25,7 @@ const threadsSlice = createSlice({
   name: 'threads',
   initialState,
   reducers: {
-    setReceiveThreads: (state, action) => { state.data = action.payload; },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(asyncReceiveThreads.pending, (state) => { state.status = 'pending'; })
-      .addCase(asyncReceiveThreads.fulfilled, (state, action) => { state.status = 'success'; state.data = action.payload; })
-      .addCase(asyncReceiveThreads.rejected, (state) => { state.status = 'fail'; });
+    setReceiveThreads: (_state, action) => action.payload,
   },
 });
 

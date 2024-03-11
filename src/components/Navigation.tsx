@@ -10,7 +10,7 @@ import ThemeSwitch from './ThemeSwitch';
 import { useAppSelector } from '../hooks/store';
 
 export default function Navigation() {
-  const { data } = useAppSelector((state) => state.authUser);
+  const authUser = useAppSelector((state) => state.authUser);
   return (
     <div className="w-full background bg-opacity-20 dark:bg-opacity-70 backdrop-blur-lg fixed bottom-0">
       <div className="flex gap-6 justify-center items-center py-3 text-neutral-500">
@@ -23,7 +23,7 @@ export default function Navigation() {
         <Link to={CREATETHREAD} className="btn-nav" title="New thread">
           <FaPlus size={24} />
         </Link>
-        {data ? (
+        {authUser.id ? (
           <Link to={PROFILE} className="btn-nav" title="Profile">
             <MdPersonOutline size={24} />
           </Link>

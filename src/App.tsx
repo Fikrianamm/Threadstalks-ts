@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
 import {
   CREATETHREAD,
   HOME, LEADERBOARDS, LOGIN, NOTFOUND, PROFILE, REGISTER,
@@ -14,7 +15,7 @@ import CreatePage from './pages/CreatePage';
 import ProfilePage from './pages/ProfilePage';
 import LeaderboardsPage from './pages/LeaderboardsPage';
 import { asyncPreloadProcess } from './store/isPreload/isPreloadSlice';
-import { getAccessToken } from './utils/api';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   const theme = useAppSelector((state) => state.theme);
@@ -30,12 +31,12 @@ export default function App() {
 
   useEffect(() => {
     dispatch(asyncPreloadProcess());
-    console.log(getAccessToken());
   }, [dispatch]);
 
   return (
     <>
       <Loading />
+      <ToastContainer position="top-center" theme={theme} className="mt-8" />
       <Routes>
         <Route path={NOTFOUND} Component={ErrorPage} />
         <Route path={HOME} Component={HomePage} />

@@ -4,7 +4,7 @@ import Navigation from '../Navigation';
 function Header() {
   return (
     <div className="w-full flex justify-center items-center py-4 background text">
-      <h1 className="font-oleoScript text-xl">Threadstalks</h1>
+      <h1 className="font-oleoScript text-xl cursor-default">Threadstalks</h1>
     </div>
   );
 }

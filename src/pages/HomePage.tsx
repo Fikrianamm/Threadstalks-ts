@@ -13,7 +13,7 @@ export default function HomePage() {
 
   return (
     <LayoutNavigationBottom>
-      {threads.data && threads.data.map((thread) :React.ReactNode => (
+      {threads && threads.map((thread) :React.ReactNode => (
         <div key={thread.id}>
           <h4>{thread.title}</h4>
           <p>{thread.body}</p>

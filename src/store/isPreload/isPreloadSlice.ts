@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { hideLoading, showLoading } from 'react-redux-loading-bar';
+import { toast } from 'react-toastify';
 import { getErrorMessage, getOwnProfile } from '../../utils/api';
 import { setAuthUser } from '../authUser/authUserSlice';
 
@@ -7,15 +8,22 @@ const initialState: boolean = true;
 
 export const asyncPreloadProcess = createAsyncThunk('isPreload/asyncPreloadProcess', async (_, { dispatch }) => {
   dispatch(showLoading());
+  const preload = toast.loading('Preload process');
   try {
-    const { message, user } = await getOwnProfile();
-    if (user) {
-      dispatch(setAuthUser(user));
+    const { user } = await getOwnProfile();
+    if (user === undefined) {
+      throw new Error('Anda belum login');
     } else {
-      throw new Error(message);
+      dispatch(setAuthUser(user));
+      toast.update(preload, {
+        render: 'Anda telah login', type: 'success', isLoading: false, autoClose: 3000,
+      });
     }
   } catch (error) {
     const message = getErrorMessage(error);
+    toast.update(preload, {
+      render: message, type: 'error', isLoading: false, autoClose: 3000,
+    });
     throw new Error(message);
   } finally {
     dispatch(hideLoading());
