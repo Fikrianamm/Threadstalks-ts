@@ -1,10 +1,11 @@
 import ReactQuill from 'react-quill';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import LayoutNavigationBack from '../components/layouts/LayoutNavigationBack';
 import 'react-quill/dist/quill.bubble.css';
 import useInput from '../hooks/useInput';
-import { useAppDispatch } from '../hooks/store';
+import { useAppDispatch, useAppSelector } from '../hooks/store';
 import { asyncCreateThread } from '../store/threads/threadsSlice';
 
 const modules = {
@@ -27,18 +28,30 @@ export default function CreatePage() {
   const [body, onChangeBody] = useState('');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const authuser = useAppSelector((state) => state.authUser);
 
   function handleCreate(e:FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(asyncCreateThread({ title, category, body }));
-    navigate('/');
+    if (body && title) {
+      dispatch(asyncCreateThread({ title, category, body }));
+      navigate('/');
+      return;
+    }
+    toast.warning('Title and description required');
   }
+
+  useEffect(() => {
+    if (authuser.id === null) {
+      toast.warning('Login dulu ya, kalo sudah baru bisa buat thread :) ');
+      navigate('/login');
+    }
+  }, [authuser, navigate]);
 
   return (
     <LayoutNavigationBack>
       <h2 className="text-2xl font-bold mb-4">Buat thread baru</h2>
       <form onSubmit={(event) => handleCreate(event)} className="flex flex-col gap-4 md:w-[432px] w-80">
-        <input type="text" className="input w-full" placeholder="Title" value={title} onChange={onChangeTitle} />
+        <input type="text" className="input w-full" placeholder="Title" value={title} onChange={onChangeTitle} required />
         <input type="text" className="input w-full" placeholder="Category (opsional)" value={category} onChange={onChangeCategory} />
         <ReactQuill modules={modules} theme="bubble" placeholder="Description..." className="input p-0 py-2 w-full" value={body} onChange={onChangeBody} />
         <button type="submit" className="btn w-max p-2 px-4 ml-auto">Posting</button>
