@@ -1,6 +1,6 @@
 import IComment from './comments';
 import ISummary from './summary';
-import { IUser } from './user';
+import { IUser, IUserProfile } from './user';
 
 interface IThreadItem extends IThreadData, ISummary {
   ownerId: string
@@ -18,8 +18,14 @@ interface IThreadDetail extends IThreadData, ISummary {
   owner: IUser
 }
 
+interface IThreadList extends IThreadItem {
+  users: IUserProfile
+  authUser: string | null
+}
+
 export type {
   IThreadData,
   IThreadDetail,
   IThreadItem,
+  IThreadList,
 };
