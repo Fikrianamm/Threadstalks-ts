@@ -34,6 +34,7 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 'off',
     'react/jsx-uses-react': 'off',
+    'react/jsx-no-bind': 'off',
     'import/no-extraneous-dependencies': 'off',
     'no-console': 'off',
     '@typescript-eslint/no-use-before-define': 'off',

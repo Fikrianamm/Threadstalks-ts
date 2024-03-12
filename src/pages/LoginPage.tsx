@@ -1,6 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { FormEvent } from 'react';
-import Button from '../components/Button';
 import LayoutNavigationBack from '../components/layouts/LayoutNavigationBack';
 import { useAppDispatch } from '../hooks/store';
 import useInput from '../hooks/useInput';
@@ -26,7 +25,7 @@ export default function LoginPage() {
         <form onSubmit={(event) => handleLogin(event)} className="flex flex-col gap-2">
           <input type="text" className="input" placeholder="Email" value={email} onChange={onChangeEmail} required />
           <input type="password" className="input" placeholder="Password" value={password} onChange={onChangePassword} required />
-          <Button>Login</Button>
+          <button type="submit" className="btn mt-2">Login</button>
         </form>
         <p className="text-sm text-neutral-500 text-center">
           Belum punya akun?
