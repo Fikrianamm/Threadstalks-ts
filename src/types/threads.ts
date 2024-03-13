@@ -19,7 +19,7 @@ interface IThreadDetail extends IThreadData, ISummary {
 }
 
 interface IThreadList extends IThreadItem {
-  users: IUserProfile
+  users: IUserProfile | undefined
   authUser: string | null
 }
 
