@@ -21,15 +21,15 @@ export default function ThreadItem({ thread }:{ thread:IThreadList }) {
       </div>
       <pre className="text-sm text-slate-500 line-clamp-1 font-openSans">{parsedBody}</pre>
       <div className="flex gap-4 items-center">
-        <p className="flex gap-1 items-center text-sm font-semibold text-neutral-300 hover:text-green-600 transition-all cursor-pointer">
+        <p className="flex gap-1 items-center text-sm font-semibold text-neutral-500 hover:text-green-600 transition-all cursor-pointer">
           <MdKeyboardDoubleArrowUp size={24} />
           {thread.upVotesBy.length}
         </p>
-        <p className="flex gap-1 items-center text-sm font-semibold text-neutral-300 hover:text-red-600 transition-all cursor-pointer">
+        <p className="flex gap-1 items-center text-sm font-semibold text-neutral-500 hover:text-red-600 transition-all cursor-pointer">
           <MdKeyboardDoubleArrowDown size={24} />
           {thread.downVotesBy.length}
         </p>
-        <Link to={`/threads/${thread.id}`} className="flex gap-1 items-center text-xs font-semibold text-neutral-300 cursor-pointer">
+        <Link to={`/threads/${thread.id}`} className="flex gap-1 items-center text-sm font-semibold text-neutral-500 cursor-pointer">
           {thread.totalComments ? `${thread.totalComments} Balasan` : 'Belum ada balasan'}
         </Link>
       </div>

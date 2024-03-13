@@ -6,12 +6,14 @@ import usersSlice from './users/usersSlice';
 import threadsSlice from './threads/threadsSlice';
 import themeSlice from './theme/themeSlice';
 import leaderboardsSlice from './leaderboards/leaderboardsSlice';
+import threadDetailSlice from './threadDetail/threadDetailSlice';
 
 export const store = configureStore({
   reducer: {
     authUser: authUserSlice,
     isPreload: isPreloadSlice,
     threads: threadsSlice,
+    threadDetail: threadDetailSlice,
     users: usersSlice,
     theme: themeSlice,
     leaderboards: leaderboardsSlice,

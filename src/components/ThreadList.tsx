@@ -10,6 +10,7 @@ export default function ThreadList() {
     users: users.find((user) => user.id === thread.ownerId),
     authUser: authUser.id,
   })) : [];
+
   return (
     <div className="flex flex-col gap-3">
       { threadList.map((thread) => (
