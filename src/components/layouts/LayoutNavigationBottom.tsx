@@ -3,8 +3,8 @@ import Navigation from '../Navigation';
 
 function Header() {
   return (
-    <div className="w-full flex justify-center items-center py-4 background text">
-      <h1 className="font-oleoScript text-xl cursor-default">Threadstalks</h1>
+    <div className="flex items-center justify-center w-full py-4 background text">
+      <h1 className="text-xl cursor-default font-oleoScript">Threadstalks</h1>
     </div>
   );
 }
@@ -15,9 +15,9 @@ interface IProps {
 
 export default function LayoutNavigationBottom({ children }: IProps) {
   return (
-    <div className="min-h-dvh flex flex-col background text">
+    <div className="flex flex-col min-h-dvh background text">
       <Header />
-      <main className="flex-1 pb-20 pt-6 max-w-screen-sm w-full mx-auto px-4">
+      <main className="flex-1 w-full max-w-screen-sm px-4 pt-6 pb-20 mx-auto">
         {children}
       </main>
       <Navigation />

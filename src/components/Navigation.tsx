@@ -12,8 +12,8 @@ import { useAppSelector } from '../hooks/store';
 export default function Navigation() {
   const authUser = useAppSelector((state) => state.authUser);
   return (
-    <div className="w-full background bg-opacity-20 dark:bg-opacity-70 backdrop-blur-lg fixed bottom-0">
-      <div className="flex gap-6 justify-center items-center py-3 text-neutral-500">
+    <div className="fixed bottom-0 w-full background bg-opacity-20 dark:bg-opacity-70 backdrop-blur-lg">
+      <div className="flex items-center justify-center gap-6 py-3 text-neutral-500">
         <Link to={HOME} className="btn-nav" title="Threads">
           <MdChatBubbleOutline size={24} />
         </Link>

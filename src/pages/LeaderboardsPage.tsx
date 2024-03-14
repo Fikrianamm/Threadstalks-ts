@@ -20,15 +20,15 @@ export default function LeaderboardsPage() {
         </h2>
         <RiVipCrownLine size={24} className="text-yellow-500" />
       </div>
-      <div className="mt-6 flex flex-col gap-6">
+      <div className="flex flex-col gap-6 mt-6">
         {leaderboards && leaderboards.map((person, index) => (
-          <div key={person.user.id} className="flex justify-between items-center font-semibold pl-4">
+          <div key={person.user.id} className="flex items-center justify-between pl-4 font-semibold">
             <div className="flex items-center">
               <span className="text-lg">
                 {index + 1}
                 .
               </span>
-              <img src={person.user.avatar} alt={person.user.name} className="rounded-full ml-4 mr-2 w-9 h-9" />
+              <img src={person.user.avatar} alt={person.user.name} className="ml-4 mr-2 rounded-full w-9 h-9" />
               <p>{person.user.name}</p>
             </div>
             <p>

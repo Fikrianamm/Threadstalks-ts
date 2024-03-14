@@ -25,15 +25,15 @@ export default function Profile() {
   return (
     <div className="flex gap-4">
       <img src={authUser.avatar} alt={authUser.name} className="rounded-full max-w-14 max-h-14 md:max-w-16 md:max-h-16" />
-      <div className="flex justify-between w-full h-max my-auto">
+      <div className="flex justify-between w-full my-auto h-max">
         <div className="flex flex-col justify-start">
-          <h3 className="text-sm md:text-base capitalize font-bold">{authUser.name}</h3>
-          <p className="text-sm md:text-base lowercase">{authUser.email}</p>
+          <h3 className="text-sm font-bold capitalize md:text-base">{authUser.name}</h3>
+          <p className="text-sm lowercase md:text-base">{authUser.email}</p>
         </div>
         <div className="relative">
-          <SlOptions className="hover:bg-neutral-200 dark:hover:bg-neutral-900 rounded-md p-1 box-content mb-2" onClick={() => handleToggleOptions()} />
+          <SlOptions className="box-content p-1 mb-2 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-900" onClick={() => handleToggleOptions()} />
           {showOptions && (
-          <div className="absolute right-0 border border-neutral-600 text-sm font-semibold hover:bg-neutral-200 dark:hover:bg-neutral-900 py-2 px-4 w-max rounded-md cursor-pointer" onClick={() => handleLogout()} role="button" tabIndex={0}>
+          <div className="absolute right-0 px-4 py-2 text-sm font-semibold border rounded-md cursor-pointer border-neutral-600 hover:bg-neutral-200 dark:hover:bg-neutral-900 w-max" onClick={() => handleLogout()} role="button" tabIndex={0}>
             Logout
           </div>
           )}

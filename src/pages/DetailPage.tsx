@@ -4,9 +4,10 @@ import LayoutNavigationBack from '../components/layouts/LayoutNavigationBack';
 import { useAppDispatch, useAppSelector } from '../hooks/store';
 import { asyncReceiveThreadDetail, unsetThreadDetail } from '../store/threadDetail/threadDetailSlice';
 import ThreadSkeleton from '../components/ThreadSkeleton';
+import ThreadDetail from '../components/ThreadDetail';
 
 export default function DetailPage() {
-  const { isLoading, data } = useAppSelector((state) => state.threadDetail);
+  const { isLoading } = useAppSelector((state) => state.threadDetail);
   const dispatch = useAppDispatch();
   const { id } = useParams();
 
@@ -25,7 +26,7 @@ export default function DetailPage() {
         ? (
           <ThreadSkeleton />
         )
-        : data?.title}
+        : <ThreadDetail />}
     </LayoutNavigationBack>
   );
 }
