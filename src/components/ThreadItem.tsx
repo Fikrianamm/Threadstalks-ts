@@ -18,7 +18,7 @@ export default function ThreadItem({ thread }:{ thread:IThreadList }) {
         <small className="text-xs text-neutral-500">{createdAt}</small>
       </div>
       <div className="flex flex-wrap items-center gap-2">
-        <Link to={`/threads/${thread.id}`} className="text-base font-bold cursor-pointer hover:text-sky-600">{thread.title}</Link>
+        <Link to={`/threads/${thread.id}`} className="text-base font-bold cursor-pointer hover:text-sky-600 line-clamp-2">{thread.title}</Link>
         <p className="p-2 text-xs border rounded-md border-neutral-500">{thread.category}</p>
       </div>
       <div className="text-sm text-slate-500 line-clamp-1">{parsedBody}</div>

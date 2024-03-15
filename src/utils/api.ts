@@ -145,9 +145,11 @@ async function getDetailThread(id: string): Promise<IResponse> {
   }
 }
 
-async function createComment(id: string, content: string): Promise<IResponse> {
+async function createComment(commentData:
+{ id: string, data: { content: string }
+}): Promise<IResponse> {
   try {
-    const response = await fetchWithToken('post', `/threads/${id}/comments`, content);
+    const response = await fetchWithToken('post', `/threads/${commentData.id}/comments`, commentData.data);
     const { status, message } = response.data;
     if (status !== 'success') {
       throw new Error(message);

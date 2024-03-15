@@ -17,14 +17,14 @@ export default function Comment({ comment }:{ comment:IComment }) {
         </div>
         <div className="my-1 text-sm md:text-base">{parsedContent}</div>
         <div className="flex items-center gap-4">
-          <p className="flex items-center gap-1 text-sm font-semibold transition-all cursor-pointer text-neutral-500 hover:text-green-600">
+          <button type="button" className="flex items-center gap-1 text-sm font-semibold transition-all cursor-pointer text-neutral-500 hover:text-green-600">
             <MdKeyboardDoubleArrowUp size={24} />
             {comment.upVotesBy.length}
-          </p>
-          <p className="flex items-center gap-1 text-sm font-semibold transition-all cursor-pointer text-neutral-500 hover:text-red-600">
+          </button>
+          <button type="button" className="flex items-center gap-1 text-sm font-semibold transition-all cursor-pointer text-neutral-500 hover:text-red-600">
             <MdKeyboardDoubleArrowDown size={24} />
             {comment.downVotesBy.length}
-          </p>
+          </button>
         </div>
       </div>
     </div>

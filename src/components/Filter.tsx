@@ -22,7 +22,7 @@ export default function Filter({
   return (
     <>
       <h4 className="text-xl font-semibold">Filter</h4>
-      <div className="flex gap-3 mt-2 mb-6">
+      <div className="flex flex-wrap gap-3 mt-2 mb-6">
         {
               categories.map((category) => (
                 <button

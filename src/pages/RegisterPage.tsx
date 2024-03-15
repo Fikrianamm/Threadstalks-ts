@@ -13,9 +13,15 @@ export default function RegisterPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const registerData = {
+    name,
+    email: email.toLowerCase(),
+    password,
+  };
+
   function handleRegister(e:FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(asyncRegisterUser({ name, email, password }));
+    dispatch(asyncRegisterUser(registerData));
     navigate('/login');
   }
 

@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/store';
 import { asyncReceiveThreadDetail, unsetThreadDetail } from '../store/threadDetail/threadDetailSlice';
 import ThreadDetail from '../components/ThreadDetail';
 import ThreadSkeleton from '../components/skeletons/ThreadSkeleton';
+import CommentForm from '../components/CommentForm';
 
 export default function DetailPage() {
   const { isLoading } = useAppSelector((state) => state.threadDetail);
@@ -23,10 +24,13 @@ export default function DetailPage() {
   return (
     <LayoutNavigationBack>
       {isLoading
-        ? (
-          <ThreadSkeleton />
-        )
-        : <ThreadDetail />}
+        ? <ThreadSkeleton />
+        : (
+          <>
+            <ThreadDetail />
+            <CommentForm />
+          </>
+        )}
     </LayoutNavigationBack>
   );
 }

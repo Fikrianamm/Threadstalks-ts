@@ -20,7 +20,7 @@ interface IProps {
 
 export default function LayoutNavigationBack({ children }: IProps) {
   return (
-    <div className="flex flex-col min-h-dvh background text">
+    <div className="relative flex flex-col min-h-dvh background text">
       <Header />
       <main className="flex-1 w-full max-w-screen-sm px-4 pt-6 pb-20 mx-auto">
         {children}

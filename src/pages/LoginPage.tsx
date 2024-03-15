@@ -12,9 +12,14 @@ export default function LoginPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const loginData = {
+    email: email.toLowerCase(),
+    password,
+  };
+
   function handleLogin(e:FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(asyncSetAuthUser({ email, password }));
+    dispatch(asyncSetAuthUser(loginData));
     navigate('/');
   }
 
