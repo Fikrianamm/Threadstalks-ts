@@ -2,9 +2,20 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { hideLoading, showLoading } from 'react-redux-loading-bar';
 import { toast } from 'react-toastify';
 import { IThreadData, IThreadItem } from '../../types/threads';
-import { createThread, getAllThreads, getErrorMessage } from '../../utils/api';
+import {
+  createThread, getAllThreads, getAllUsers, getErrorMessage,
+} from '../../utils/api';
+import { setUsers } from '../users/usersSlice';
 
-const initialState: IThreadItem[] = [];
+interface IInitialState {
+  isLoading: boolean
+  data: IThreadItem[]
+}
+
+const initialState: IInitialState = {
+  isLoading: false,
+  data: [],
+};
 
 export const asyncReceiveThreads = createAsyncThunk('threads/asyncReceiveThreads', async (_, { dispatch }) => {
   dispatch(showLoading());
@@ -13,7 +24,7 @@ export const asyncReceiveThreads = createAsyncThunk('threads/asyncReceiveThreads
     if (threads === undefined) {
       throw new Error(message);
     }
-    dispatch(setReceiveThreads(threads));
+    dispatch(setThreads(threads));
   } catch (error) {
     const message = getErrorMessage(error);
     throw new Error(message);
@@ -44,13 +55,33 @@ export const asyncCreateThread = createAsyncThunk('threads/asyncCreateThread', a
   }
 });
 
+export const asyncPopulateThreadsAndUsers = createAsyncThunk('threads/asyncPopulateThreadsAndUsers', async (_, { dispatch }) => {
+  try {
+    const users = await getAllUsers();
+    const threads = await getAllThreads();
+    dispatch(setUsers(users.users));
+    dispatch(setThreads(threads.threads));
+  } catch (error) {
+    const message = getErrorMessage(error);
+    throw new Error(message);
+  }
+});
+
 const threadsSlice = createSlice({
   name: 'threads',
   initialState,
   reducers: {
-    setReceiveThreads: (_state, action) => action.payload,
+    setThreads: (state, action) => { state.data = action.payload; },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(asyncReceiveThreads.pending, (state) => { state.isLoading = true; })
+      .addCase(asyncReceiveThreads.fulfilled, (state) => { state.isLoading = false; })
+      .addCase(asyncReceiveThreads.rejected, (state) => { state.isLoading = false; })
+      .addCase(asyncPopulateThreadsAndUsers.pending, (state) => { state.isLoading = true; })
+      .addCase(asyncPopulateThreadsAndUsers.fulfilled, (state) => { state.isLoading = false; })
+      .addCase(asyncPopulateThreadsAndUsers.rejected, (state) => { state.isLoading = false; });
   },
 });
 
-export const { setReceiveThreads } = threadsSlice.actions;
+export const { setThreads } = threadsSlice.actions;
 export default threadsSlice.reducer;

@@ -4,7 +4,15 @@ import ILeaderboard from '../../types/leaderboards';
 import { IUserProfile } from '../../types/user';
 import { getErrorMessage, getLeaderboards } from '../../utils/api';
 
-const initialState:ILeaderboard<IUserProfile>[] = [];
+interface IInitialState {
+  isLoading:boolean
+  data: ILeaderboard<IUserProfile>[]
+}
+
+const initialState: IInitialState = {
+  isLoading: false,
+  data: [],
+};
 
 export const asyncReceiveLeaderboards = createAsyncThunk('leaderboards/receive', async (_, { dispatch }) => {
   dispatch(showLoading());
@@ -23,7 +31,12 @@ const leaderboardsSlice = createSlice({
   name: 'leaderboards',
   initialState,
   reducers: {
-    setLeaderboards: (_state, action) => action.payload,
+    setLeaderboards: (state, action) => { state.data = action.payload; },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(asyncReceiveLeaderboards.pending, (state) => { state.isLoading = true; })
+      .addCase(asyncReceiveLeaderboards.fulfilled, (state) => { state.isLoading = false; })
+      .addCase(asyncReceiveLeaderboards.rejected, (state) => { state.isLoading = false; });
   },
 });
 

@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import LayoutNavigationBack from '../components/layouts/LayoutNavigationBack';
 import { useAppDispatch, useAppSelector } from '../hooks/store';
 import { asyncReceiveThreadDetail, unsetThreadDetail } from '../store/threadDetail/threadDetailSlice';
-import ThreadSkeleton from '../components/ThreadSkeleton';
 import ThreadDetail from '../components/ThreadDetail';
+import ThreadSkeleton from '../components/skeletons/ThreadSkeleton';
 
 export default function DetailPage() {
   const { isLoading } = useAppSelector((state) => state.threadDetail);
