@@ -6,7 +6,7 @@ export default function VoteUp(
   { onVoteUp:()=>void, isVotedUp: boolean, children:ReactNode },
 ) {
   return (
-    <button type="button" onClick={onVoteUp} className={`flex items-center gap-1 text-sm font-semibold transition-all cursor-pointer text-neutral-500 hover:text-green-600 ${isVotedUp && 'text-green-600'}`}>
+    <button type="button" onClick={onVoteUp} className={`flex items-center gap-1 text-sm font-semibold transition-all cursor-pointer hover:text-green-600 ${isVotedUp ? 'text-green-600' : 'text-neutral-500'}`}>
       <MdKeyboardDoubleArrowUp size={24} />
       {children}
     </button>
