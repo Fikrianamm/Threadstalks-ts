@@ -1,13 +1,44 @@
 import moment from 'moment';
 import parse from 'html-react-parser';
-import { MdKeyboardDoubleArrowDown, MdKeyboardDoubleArrowUp } from 'react-icons/md';
-import { useAppSelector } from '../hooks/store';
+import { useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../hooks/store';
 import Comment from './Comment';
+import VoteUp from './VoteUp';
+import VoteDown from './VoteDown';
+import { downVoteThread, neutralVoteThread, upVoteThread } from '../utils/api';
+import { asyncReceiveThreadDetail } from '../store/threadDetail/threadDetailSlice';
 
 export default function ThreadDetail() {
+  const dispatch = useAppDispatch();
   const { data } = useAppSelector((state) => state.threadDetail);
+  const authUser = useAppSelector((state) => state.authUser);
+  const { id } = useParams();
   const parsedBody = data && parse(data.body);
   const createdAt = moment(data?.createdAt).fromNow();
+  const isVotedUp = data ? data.upVotesBy.includes(authUser.id as string) : false;
+  const isVotedDown = data ? data.downVotesBy.includes(authUser.id as string) : false;
+
+  function handleVoteUp() {
+    if (data !== null) {
+      if (isVotedUp) {
+        neutralVoteThread(data.id);
+      } else {
+        upVoteThread(data.id);
+      }
+      dispatch(asyncReceiveThreadDetail(id as string));
+    }
+  }
+
+  function handleVoteDown() {
+    if (data !== null) {
+      if (isVotedDown) {
+        neutralVoteThread(data.id);
+      } else {
+        downVoteThread(data.id);
+      }
+      dispatch(asyncReceiveThreadDetail(id as string));
+    }
+  }
 
   return (
     <>
@@ -29,14 +60,18 @@ export default function ThreadDetail() {
           {parsedBody}
         </div>
         <div className="flex items-center gap-4">
-          <p className="flex items-center gap-1 text-sm font-semibold transition-all cursor-pointer text-neutral-500 hover:text-green-600">
-            <MdKeyboardDoubleArrowUp size={24} />
+          <VoteUp
+            onVoteUp={handleVoteUp}
+            isVotedUp={isVotedUp}
+          >
             {data?.upVotesBy.length}
-          </p>
-          <p className="flex items-center gap-1 text-sm font-semibold transition-all cursor-pointer text-neutral-500 hover:text-red-600">
-            <MdKeyboardDoubleArrowDown size={24} />
+          </VoteUp>
+          <VoteDown
+            onVoteDown={handleVoteDown}
+            isVotedDown={isVotedDown}
+          >
             {data?.downVotesBy.length}
-          </p>
+          </VoteDown>
           <div className="flex items-center gap-1 text-sm font-semibold text-neutral-500">
             {data?.comments.length ? `${data?.comments.length} Balasan` : 'Belum ada balasan'}
           </div>
