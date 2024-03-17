@@ -26,10 +26,10 @@ export default function RegisterPage() {
     password,
   };
 
-  function handleRegister(e:FormEvent<HTMLFormElement>) {
+  async function handleRegister(e:FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(asyncRegisterUser(registerData));
-    navigate('/login');
+    const isSuccess = await dispatch(asyncRegisterUser(registerData));
+    if (isSuccess) navigate('/login');
   }
 
   return (
