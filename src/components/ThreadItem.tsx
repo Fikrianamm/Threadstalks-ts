@@ -1,10 +1,12 @@
 import moment from 'moment';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser';
-import { IThreadList } from '../types/threads';
-import { downVoteThread, neutralVoteThread, upVoteThread } from '../utils/api';
+import { toast } from 'react-toastify';
+import { IVoteThread, IThreadList } from '../types/threads';
 import { useAppDispatch, useAppSelector } from '../hooks/store';
-import { asyncReceiveThreads } from '../store/threads/threadsSlice';
+import {
+  threadDownVote, threadNeutralVote, threadUpVote,
+} from '../store/threads/threadsSlice';
 import VoteUp from './VoteUp';
 import VoteDown from './VoteDown';
 
@@ -15,23 +17,33 @@ export default function ThreadItem({ thread }:{ thread:IThreadList }) {
   const createdAt = moment(thread.createdAt).fromNow();
   const isVotedUp = thread.upVotesBy.includes(id as string);
   const isVotedDown = thread.downVotesBy.includes(id as string);
+  const navigate = useNavigate();
+
+  const idContent:IVoteThread = {
+    idThread: thread.id,
+    authUserId: id as string,
+  };
 
   function handleVoteUp() {
-    if (isVotedUp) {
-      neutralVoteThread(thread.id);
+    if (id === null) {
+      toast.warning('Login dulu ya, kalo sudah baru bisa vote :) ');
+      navigate('/login');
+    } else if (isVotedUp) {
+      dispatch(threadNeutralVote(idContent));
     } else {
-      upVoteThread(thread.id);
+      dispatch(threadUpVote(idContent));
     }
-    dispatch(asyncReceiveThreads());
   }
 
   function handleVoteDown() {
-    if (isVotedDown) {
-      neutralVoteThread(thread.id);
+    if (id === null) {
+      toast.warning('Login dulu ya, kalo sudah baru bisa vote :) ');
+      navigate('/login');
+    } else if (isVotedDown) {
+      dispatch(threadNeutralVote(idContent));
     } else {
-      downVoteThread(thread.id);
+      dispatch(threadDownVote(idContent));
     }
-    dispatch(asyncReceiveThreads());
   }
 
   return (

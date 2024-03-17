@@ -28,7 +28,7 @@ export default function CreatePage() {
   const [body, onChangeBody] = useState('');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const authuser = useAppSelector((state) => state.authUser);
+  const authUser = useAppSelector((state) => state.authUser);
 
   function handleCreate(e:FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -41,11 +41,11 @@ export default function CreatePage() {
   }
 
   useEffect(() => {
-    if (authuser.id === null) {
+    if (authUser.id === null) {
       toast.warning('Login dulu ya, kalo sudah baru bisa buat thread :) ');
       navigate('/login');
     }
-  }, [authuser, navigate]);
+  }, [authUser, navigate]);
 
   return (
     <LayoutNavigationBack>

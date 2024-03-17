@@ -1,9 +1,9 @@
-import { FormEvent } from 'react';
+import { FormEvent, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import LayoutNavigationBack from '../components/layouts/LayoutNavigationBack';
 import useInput from '../hooks/useInput';
 import { LOGIN } from '../routes/routeConstant';
-import { useAppDispatch } from '../hooks/store';
+import { useAppDispatch, useAppSelector } from '../hooks/store';
 import { asyncRegisterUser } from '../store/users/usersSlice';
 
 export default function RegisterPage() {
@@ -12,6 +12,13 @@ export default function RegisterPage() {
   const [password, onChangePassword] = useInput();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const authUser = useAppSelector((state) => state.authUser);
+
+  useEffect(() => {
+    if (authUser.id !== null) {
+      navigate('/');
+    }
+  }, [authUser, navigate]);
 
   const registerData = {
     name,

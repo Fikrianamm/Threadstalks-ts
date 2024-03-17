@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { FormEvent } from 'react';
+import { FormEvent, useEffect } from 'react';
 import LayoutNavigationBack from '../components/layouts/LayoutNavigationBack';
-import { useAppDispatch } from '../hooks/store';
+import { useAppDispatch, useAppSelector } from '../hooks/store';
 import useInput from '../hooks/useInput';
 import { asyncSetAuthUser } from '../store/authUser/authUserSlice';
 import { REGISTER } from '../routes/routeConstant';
@@ -11,6 +11,13 @@ export default function LoginPage() {
   const [password, onChangePassword] = useInput();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const authUser = useAppSelector((state) => state.authUser);
+
+  useEffect(() => {
+    if (authUser.id !== null) {
+      navigate('/');
+    }
+  }, [authUser, navigate]);
 
   const loginData = {
     email: email.toLowerCase(),

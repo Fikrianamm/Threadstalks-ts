@@ -23,6 +23,15 @@ interface IThreadList extends IThreadItem {
   authUser: string | null
 }
 
+export interface IVoteThread {
+  idThread:string
+  authUserId?:string
+}
+
+export interface IVoteComment extends IVoteThread {
+  idComment:string
+}
+
 export type {
   IThreadData,
   IThreadDetail,

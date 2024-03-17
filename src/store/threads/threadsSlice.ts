@@ -1,11 +1,22 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { hideLoading, showLoading } from 'react-redux-loading-bar';
 import { toast } from 'react-toastify';
-import { IThreadData, IThreadItem } from '../../types/threads';
 import {
-  createThread, getAllThreads, getAllUsers, getErrorMessage,
+  IVoteThread, IThreadData, IThreadDetail, IThreadItem,
+} from '../../types/threads';
+import {
+  createThread,
+  downVoteThread,
+  getAllThreads,
+  getAllUsers,
+  getErrorMessage,
+  neutralVoteThread,
+  upVoteThread,
 } from '../../utils/api';
 import { setUsers } from '../users/usersSlice';
+import {
+  addVoteDownThread, addVoteUpThread, setThreadDetail, setVoteNeutralThread,
+} from '../threadDetail/threadDetailSlice';
 
 interface IInitialState {
   isLoading: boolean
@@ -67,11 +78,120 @@ export const asyncPopulateThreadsAndUsers = createAsyncThunk('threads/asyncPopul
   }
 });
 
+export const threadUpVote = createAsyncThunk<void, IVoteThread, { state:{
+  threads:IInitialState,
+  threadDetail: {
+    isLoading: boolean
+    data:IThreadDetail | null
+  }
+} }>('threads/upVote', async (idContent: IVoteThread, { dispatch, getState }) => {
+  dispatch(showLoading());
+  const threadsBefore = getState().threads;
+  const threadDetailBefore = getState().threadDetail;
+  dispatch(addVoteUpThread({ idThread: idContent.idThread, authUserId: idContent.authUserId }));
+  dispatch(addVoteUp({ idThread: idContent.idThread, authUserId: idContent.authUserId }));
+  try {
+    await upVoteThread(idContent.idThread);
+  } catch (error) {
+    const message = getErrorMessage(error);
+    dispatch(setThreads(threadsBefore));
+    dispatch(setThreadDetail(threadDetailBefore));
+    throw new Error(message);
+  } finally {
+    dispatch(hideLoading());
+  }
+});
+
+export const threadDownVote = createAsyncThunk<void, IVoteThread, { state:{
+  threads:IInitialState,
+  threadDetail: {
+    isLoading: boolean
+    data:IThreadDetail | null
+  }
+} }>('threads/downVote', async (idContent: IVoteThread, { dispatch, getState }) => {
+  dispatch(showLoading());
+  const threadsBefore = getState().threads;
+  const threadDetailBefore = getState().threadDetail;
+  dispatch(addVoteDownThread({ idThread: idContent.idThread, authUserId: idContent.authUserId }));
+  dispatch(addVoteDown({ idThread: idContent.idThread, authUserId: idContent.authUserId }));
+  try {
+    await downVoteThread(idContent.idThread);
+  } catch (error) {
+    const message = getErrorMessage(error);
+    dispatch(setThreads(threadsBefore));
+    dispatch(setThreadDetail(threadDetailBefore));
+    throw new Error(message);
+  } finally {
+    dispatch(hideLoading());
+  }
+});
+
+export const threadNeutralVote = createAsyncThunk<void, IVoteThread, { state:{
+  threads:IInitialState,
+  threadDetail: {
+    isLoading: boolean
+    data:IThreadDetail | null
+  }
+} }>('threads/neutralVote', async (idContent: IVoteThread, { dispatch, getState }) => {
+  dispatch(showLoading());
+  const threadsBefore = getState().threads;
+  const threadDetailBefore = getState().threadDetail;
+  dispatch(setVoteNeutralThread(
+    { idThread: idContent.idThread, authUserId: idContent.authUserId },
+  ));
+  dispatch(setVoteNeutral({ idThread: idContent.idThread, authUserId: idContent.authUserId }));
+  try {
+    await neutralVoteThread(idContent.idThread);
+  } catch (error) {
+    const message = getErrorMessage(error);
+    dispatch(setThreads(threadsBefore));
+    dispatch(setThreadDetail(threadDetailBefore));
+    throw new Error(message);
+  } finally {
+    dispatch(hideLoading());
+  }
+});
+
 const threadsSlice = createSlice({
   name: 'threads',
   initialState,
   reducers: {
     setThreads: (state, action) => { state.data = action.payload; },
+    addVoteUp: (state, action) => {
+      const index = state.data.findIndex((thread) => thread.id === action.payload.idThread);
+      const newArrayThreads = [...state.data];
+      const newThread = { ...state.data[index] };
+      newThread.upVotesBy.push(action.payload.authUserId);
+      newThread.downVotesBy = newThread.downVotesBy.filter(
+        (userId) => userId !== action.payload.authUserId,
+      );
+      newArrayThreads.splice(index, 1, newThread);
+      state.data = newArrayThreads;
+    },
+    addVoteDown: (state, action) => {
+      const index = state.data.findIndex((thread) => thread.id === action.payload.idThread);
+      const newArrayThreads = [...state.data];
+      const newThread = { ...state.data[index] };
+      newThread.downVotesBy.push(action.payload.authUserId);
+      newThread.upVotesBy = newThread.upVotesBy.filter(
+        (userId) => userId !== action.payload.authUserId,
+      );
+      newArrayThreads.splice(index, 1, newThread);
+      state.data = newArrayThreads;
+    },
+    setVoteNeutral: (state, action) => {
+      const index = state.data.findIndex((thread) => thread.id === action.payload.idThread);
+      const newArrayThreads = [...state.data];
+      const newThread = { ...state.data[index] };
+      newThread.upVotesBy = newThread.upVotesBy.filter(
+        (userId) => userId !== action.payload.authUserId,
+      );
+      newThread.downVotesBy = newThread.downVotesBy.filter(
+        (userId) => userId !== action.payload.authUserId,
+      );
+      newArrayThreads.splice(index, 1, newThread);
+      state.data = newArrayThreads;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(asyncReceiveThreads.pending, (state) => { state.isLoading = true; })
@@ -83,5 +203,7 @@ const threadsSlice = createSlice({
   },
 });
 
-export const { setThreads } = threadsSlice.actions;
+export const {
+  setThreads, addVoteUp, addVoteDown, setVoteNeutral,
+} = threadsSlice.actions;
 export default threadsSlice.reducer;

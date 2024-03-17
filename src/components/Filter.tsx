@@ -30,7 +30,7 @@ export default function Filter({
                   key={category}
                   onClick={() => (filter !== category
                     ? onSetSelectedFilter(category) : onUnsetSelectedFilter())}
-                  className={`p-2 font-semibold text-xs transition-all border rounded-md ${filter === category ? 'bg-neutral-900 text-white' : 'hover:shadow-lg border-neutral-500'}`}
+                  className={`p-2 font-semibold text-xs transition-all border rounded-md ${filter === category ? 'dark:bg-neutral-200 dark:text-neutral-900 bg-neutral-900 text-white' : 'hover:shadow-lg border-neutral-500'}`}
                 >
                   {category}
                 </button>

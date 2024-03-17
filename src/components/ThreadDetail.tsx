@@ -1,42 +1,52 @@
 import moment from 'moment';
 import parse from 'html-react-parser';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from '../hooks/store';
 import Comment from './Comment';
 import VoteUp from './VoteUp';
 import VoteDown from './VoteDown';
-import { downVoteThread, neutralVoteThread, upVoteThread } from '../utils/api';
-import { asyncReceiveThreadDetail } from '../store/threadDetail/threadDetailSlice';
+import { threadDownVote, threadNeutralVote, threadUpVote } from '../store/threads/threadsSlice';
+import { IVoteThread } from '../types/threads';
 
 export default function ThreadDetail() {
   const dispatch = useAppDispatch();
   const { data } = useAppSelector((state) => state.threadDetail);
   const authUser = useAppSelector((state) => state.authUser);
-  const { id } = useParams();
   const parsedBody = data && parse(data.body);
   const createdAt = moment(data?.createdAt).fromNow();
   const isVotedUp = data ? data.upVotesBy.includes(authUser.id as string) : false;
   const isVotedDown = data ? data.downVotesBy.includes(authUser.id as string) : false;
+  const navigate = useNavigate();
+
+  const idContent:IVoteThread = {
+    idThread: data?.id as string,
+    authUserId: authUser.id as string,
+  };
 
   function handleVoteUp() {
-    if (data !== null) {
+    if (authUser.id === null) {
+      toast.warning('Login dulu ya, kalo sudah baru bisa vote :) ');
+      navigate('/login');
+    } else if (data !== null) {
       if (isVotedUp) {
-        neutralVoteThread(data.id);
+        dispatch(threadNeutralVote(idContent));
       } else {
-        upVoteThread(data.id);
+        dispatch(threadUpVote(idContent));
       }
-      dispatch(asyncReceiveThreadDetail(id as string));
     }
   }
 
   function handleVoteDown() {
-    if (data !== null) {
+    if (authUser.id === null) {
+      toast.warning('Login dulu ya, kalo sudah baru bisa vote :) ');
+      navigate('/login');
+    } else if (data !== null) {
       if (isVotedDown) {
-        neutralVoteThread(data.id);
+        dispatch(threadNeutralVote(idContent));
       } else {
-        downVoteThread(data.id);
+        dispatch(threadDownVote(idContent));
       }
-      dispatch(asyncReceiveThreadDetail(id as string));
     }
   }
 

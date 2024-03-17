@@ -1,12 +1,15 @@
 import moment from 'moment';
 import parse from 'html-react-parser';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import IComment from '../types/comments';
 import VoteUp from './VoteUp';
 import VoteDown from './VoteDown';
 import { useAppDispatch, useAppSelector } from '../hooks/store';
-import { asyncReceiveThreadDetail } from '../store/threadDetail/threadDetailSlice';
-import { downVoteComment, neutralVoteComment, upVoteComment } from '../utils/api';
+import {
+  commentDownVote, commentNeutralVote, commentUpVote,
+} from '../store/threadDetail/threadDetailSlice';
+import { IVoteComment } from '../types/threads';
 
 export default function Comment({ comment }:{ comment:IComment }) {
   const authUser = useAppSelector((state) => state.authUser);
@@ -16,23 +19,34 @@ export default function Comment({ comment }:{ comment:IComment }) {
   const createdAt = moment(comment.createdAt).fromNow();
   const isVotedUp = comment.upVotesBy.includes(authUser.id as string);
   const isVotedDown = comment.downVotesBy.includes(authUser.id as string);
+  const navigate = useNavigate();
+
+  const idContent:IVoteComment = {
+    idThread: id as string,
+    idComment: comment.id,
+    authUserId: authUser.id as string,
+  };
 
   function handleVoteUp() {
-    if (isVotedUp) {
-      neutralVoteComment(id as string, comment.id);
+    if (authUser.id === null) {
+      toast.warning('Login dulu ya, kalo sudah baru bisa vote :) ');
+      navigate('/login');
+    } else if (isVotedUp) {
+      dispatch(commentNeutralVote(idContent));
     } else {
-      upVoteComment(id as string, comment.id);
+      dispatch(commentUpVote(idContent));
     }
-    dispatch(asyncReceiveThreadDetail(id as string));
   }
 
   function handleVoteDown() {
-    if (isVotedDown) {
-      neutralVoteComment(id as string, comment.id);
+    if (authUser.id === null) {
+      toast.warning('Login dulu ya, kalo sudah baru bisa vote :) ');
+      navigate('/login');
+    } else if (isVotedDown) {
+      dispatch(commentNeutralVote(idContent));
     } else {
-      downVoteComment(id as string, comment.id);
+      dispatch(commentDownVote(idContent));
     }
-    dispatch(asyncReceiveThreadDetail(id as string));
   }
 
   return (

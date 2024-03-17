@@ -207,9 +207,10 @@ async function neutralVoteThread(id: string): Promise<IResponse> {
   }
 }
 
-async function upVoteComment(idThread: string, idComment: string): Promise<IResponse> {
+async function upVoteComment(idContent:
+{ idThread: string, idComment: string }): Promise<IResponse> {
   try {
-    const response = await fetchWithToken('post', `/threads/${idThread}/comments/${idComment}/up-vote`);
+    const response = await fetchWithToken('post', `/threads/${idContent.idThread}/comments/${idContent.idComment}/up-vote`);
     const { status, message } = response.data;
     if (status !== 'success') {
       throw new Error(message);
@@ -222,9 +223,10 @@ async function upVoteComment(idThread: string, idComment: string): Promise<IResp
   }
 }
 
-async function downVoteComment(idThread: string, idComment: string): Promise<IResponse> {
+async function downVoteComment(idContent:
+{ idThread: string, idComment: string }): Promise<IResponse> {
   try {
-    const response = await fetchWithToken('post', `/threads/${idThread}/comments/${idComment}/down-vote`);
+    const response = await fetchWithToken('post', `/threads/${idContent.idThread}/comments/${idContent.idComment}/down-vote`);
     const { status, message } = response.data;
     if (status !== 'success') {
       throw new Error(message);
@@ -237,9 +239,10 @@ async function downVoteComment(idThread: string, idComment: string): Promise<IRe
   }
 }
 
-async function neutralVoteComment(idThread: string, idComment: string): Promise<IResponse> {
+async function neutralVoteComment(idContent:
+{ idThread: string, idComment: string }): Promise<IResponse> {
   try {
-    const response = await fetchWithToken('post', `/threads/${idThread}/comments/${idComment}/neutral-vote`);
+    const response = await fetchWithToken('post', `/threads/${idContent.idThread}/comments/${idContent.idComment}/neutral-vote`);
     const { status, message } = response.data;
     if (status !== 'success') {
       throw new Error(message);
