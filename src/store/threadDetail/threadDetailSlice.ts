@@ -10,7 +10,7 @@ interface IInitialState {
   data:IThreadDetail | null
 }
 
-const initialState: IInitialState = {
+export const initialStateThreadDetail: IInitialState = {
   isLoading: false,
   data: null,
 };
@@ -93,10 +93,10 @@ export const commentNeutralVote = createAsyncThunk<void, IVoteComment, {
 
 const threadDetailSlice = createSlice({
   name: 'threadDetail',
-  initialState,
+  initialState: initialStateThreadDetail,
   reducers: {
     setThreadDetail: (state, action) => { state.data = action.payload; },
-    unsetThreadDetail: () => initialState,
+    unsetThreadDetail: () => initialStateThreadDetail,
     addVoteUpThread: (state, action) => {
       if (state.data !== null) {
         const newData = { ...state.data };

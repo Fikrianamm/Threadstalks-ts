@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { getErrorMessage, getOwnProfile } from '../../utils/api';
 import { setAuthUser } from '../authUser/authUserSlice';
 
-const initialState: boolean = true;
+export const initialStateIsPreload: boolean = true;
 
 export const asyncPreloadProcess = createAsyncThunk('isPreload/asyncPreloadProcess', async (_, { dispatch }) => {
   dispatch(showLoading());
@@ -32,7 +32,7 @@ export const asyncPreloadProcess = createAsyncThunk('isPreload/asyncPreloadProce
 
 const isPreloadSlice = createSlice({
   name: 'isPreload',
-  initialState,
+  initialState: initialStateIsPreload,
   reducers: {
     setIsPreload: (_state, action) => action.payload,
   },

@@ -13,7 +13,7 @@ interface IInitialState {
   avatar: string | null,
 }
 
-const initialState: IInitialState = {
+export const initialStateAuthUser : IInitialState = {
   id: null,
   name: null,
   email: null,
@@ -66,10 +66,10 @@ export const asyncUnsetAuthUser = createAsyncThunk(
 
 const authUserSlice = createSlice({
   name: 'authUser',
-  initialState,
+  initialState: initialStateAuthUser,
   reducers: {
     setAuthUser: (_state, action) => action.payload,
-    unsetAuthUser: () => initialState,
+    unsetAuthUser: () => initialStateAuthUser,
   },
 });
 

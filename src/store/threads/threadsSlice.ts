@@ -23,7 +23,7 @@ interface IInitialState {
   data: IThreadItem[]
 }
 
-const initialState: IInitialState = {
+export const initialStateThreads: IInitialState = {
   isLoading: false,
   data: [],
 };
@@ -154,7 +154,7 @@ export const threadNeutralVote = createAsyncThunk<void, IVoteThread, { state:{
 
 const threadsSlice = createSlice({
   name: 'threads',
-  initialState,
+  initialState: initialStateThreads,
   reducers: {
     setThreads: (state, action) => { state.data = action.payload; },
     addVoteUp: (state, action) => {

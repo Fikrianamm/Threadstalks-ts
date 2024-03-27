@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { IUserProfile, IUserRegisterData } from '../../types/user';
 import { getErrorMessage, register } from '../../utils/api';
 
-const initialState: IUserProfile[] = [];
+export const initialStateUsers: IUserProfile[] = [];
 
 export const asyncRegisterUser = createAsyncThunk('users/register', async (registerData : IUserRegisterData, { dispatch }) => {
   dispatch(showLoading());
@@ -30,7 +30,7 @@ export const asyncRegisterUser = createAsyncThunk('users/register', async (regis
 
 const usersSlice = createSlice({
   name: 'users',
-  initialState,
+  initialState: initialStateUsers,
   reducers: {
     setUsers: (_state, action) => action.payload,
   },

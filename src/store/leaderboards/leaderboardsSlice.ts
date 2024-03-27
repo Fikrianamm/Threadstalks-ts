@@ -9,7 +9,7 @@ interface IInitialState {
   data: ILeaderboard<IUserProfile>[]
 }
 
-const initialState: IInitialState = {
+export const initialStateLeaderboards: IInitialState = {
   isLoading: false,
   data: [],
 };
@@ -29,7 +29,7 @@ export const asyncReceiveLeaderboards = createAsyncThunk('leaderboards/receive',
 
 const leaderboardsSlice = createSlice({
   name: 'leaderboards',
-  initialState,
+  initialState: initialStateLeaderboards,
   reducers: {
     setLeaderboards: (state, action) => { state.data = action.payload; },
   },
