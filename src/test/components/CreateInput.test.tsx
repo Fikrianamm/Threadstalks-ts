@@ -1,7 +1,9 @@
 import {
   Mock, afterEach, beforeEach, describe, expect, it, vi,
 } from 'vitest';
-import { cleanup, render, screen } from '@testing-library/react';
+import {
+  RenderResult, cleanup, render, screen,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import matchers from '@testing-library/jest-dom/matchers';
 import CreateInput from '../../components/CreateInput';
@@ -20,9 +22,10 @@ expect.extend(matchers);
 
 describe('CreateInput component test', () => {
   let mockRegister:Mock;
+  let renderResult:RenderResult;
   beforeEach(() => {
     mockRegister = vi.fn();
-    render(<CreateInput onCreate={mockRegister} />);
+    renderResult = render(<CreateInput onCreate={mockRegister} />);
   });
 
   afterEach(() => {
@@ -53,20 +56,21 @@ describe('CreateInput component test', () => {
 
   it('should handle body typing correctly', async () => {
     // arrange
-    const bodyInput = screen.getByPlaceholderText('Description...');
+    const bodyInput = renderResult.container.querySelector('[data-placeholder="Description..."]')!;
 
     // action
     await userEvent.type(bodyInput, 'bodytest');
 
     // assert
-    expect(bodyInput).toHaveValue('<p>bodytest</p>');
+    expect(bodyInput.innerHTML).toContain('bodytest');
   });
 
   it('should call createThread function when create button is clicked', async () => {
     // arrange
     const titleInput = screen.getByPlaceholderText('Title');
     const categoryInput = screen.getByPlaceholderText('Category (opsional)');
-    const bodyInput = screen.getByPlaceholderText('Description...');
+    // react quill
+    const bodyInput = renderResult.container.querySelector('[data-placeholder="Description..."]')!;
     const createButton = screen.getByRole('button', { name: 'Posting' });
 
     // action
@@ -79,7 +83,7 @@ describe('CreateInput component test', () => {
     expect(mockRegister).toBeCalledWith({
       title: 'titletest',
       category: 'categorytest',
-      body: 'bodytest',
+      body: '<p><br></p><p>bodytest</p>',
     });
   });
 });

@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from '../hooks/store';
 import Comment from './Comment';
-import VoteUp from './VoteUp';
-import VoteDown from './VoteDown';
+import Vote from './Vote';
 import { threadDownVote, threadNeutralVote, threadUpVote } from '../store/threads/threadsSlice';
 import { IVoteThread } from '../types/threads';
 
@@ -70,18 +69,20 @@ export default function ThreadDetail() {
           {parsedBody}
         </div>
         <div className="flex items-center gap-4">
-          <VoteUp
-            onVoteUp={handleVoteUp}
-            isVotedUp={isVotedUp}
+          <Vote
+            onVote={handleVoteUp}
+            isVoted={isVotedUp}
+            type='voteUp'
           >
             {data?.upVotesBy.length}
-          </VoteUp>
-          <VoteDown
-            onVoteDown={handleVoteDown}
-            isVotedDown={isVotedDown}
+          </Vote>
+          <Vote
+            onVote={handleVoteDown}
+            isVoted={isVotedDown}
+            type='voteDown'
           >
             {data?.downVotesBy.length}
-          </VoteDown>
+          </Vote>
           <div className="flex items-center gap-1 text-sm font-semibold text-neutral-500">
             {data?.comments.length ? `${data?.comments.length} Balasan` : 'Belum ada balasan'}
           </div>

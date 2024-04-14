@@ -3,8 +3,7 @@ import parse from 'html-react-parser';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import IComment from '../types/comments';
-import VoteUp from './VoteUp';
-import VoteDown from './VoteDown';
+import Vote from './Vote';
 import { useAppDispatch, useAppSelector } from '../hooks/store';
 import {
   commentDownVote, commentNeutralVote, commentUpVote,
@@ -59,18 +58,20 @@ export default function Comment({ comment }:{ comment:IComment }) {
         </div>
         <div className="my-1 text-sm md:text-base">{parsedContent}</div>
         <div className="flex items-center gap-4">
-          <VoteUp
-            onVoteUp={handleVoteUp}
-            isVotedUp={isVotedUp}
+          <Vote
+            onVote={handleVoteUp}
+            isVoted={isVotedUp}
+            type='voteUp'
           >
             {comment.upVotesBy.length}
-          </VoteUp>
-          <VoteDown
-            onVoteDown={handleVoteDown}
-            isVotedDown={isVotedDown}
+          </Vote>
+          <Vote
+            onVote={handleVoteDown}
+            isVoted={isVotedDown}
+            type='voteDown'
           >
             {comment.downVotesBy.length}
-          </VoteDown>
+          </Vote>
         </div>
       </div>
     </div>

@@ -7,8 +7,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/store';
 import {
   threadDownVote, threadNeutralVote, threadUpVote,
 } from '../store/threads/threadsSlice';
-import VoteUp from './VoteUp';
-import VoteDown from './VoteDown';
+import Vote from './Vote';
 
 export default function ThreadItem({ thread }:{ thread:IThreadList }) {
   const dispatch = useAppDispatch();
@@ -61,18 +60,20 @@ export default function ThreadItem({ thread }:{ thread:IThreadList }) {
       </div>
       <div className="text-sm text-slate-500 line-clamp-1">{parsedBody}</div>
       <div className="flex items-center gap-4">
-        <VoteUp
-          onVoteUp={handleVoteUp}
-          isVotedUp={isVotedUp}
+        <Vote
+          onVote={handleVoteUp}
+          isVoted={isVotedUp}
+          type='voteUp'
         >
           {thread.upVotesBy.length}
-        </VoteUp>
-        <VoteDown
-          onVoteDown={handleVoteDown}
-          isVotedDown={isVotedDown}
+        </Vote>
+        <Vote
+          onVote={handleVoteDown}
+          isVoted={isVotedDown}
+          type='voteDown'
         >
           {thread.downVotesBy.length}
-        </VoteDown>
+        </Vote>
         <Link to={`/threads/${thread.id}`} className="flex items-center gap-1 text-sm font-semibold cursor-pointer text-neutral-500">
           {thread.totalComments ? `${thread.totalComments} Balasan` : 'Belum ada balasan'}
         </Link>
