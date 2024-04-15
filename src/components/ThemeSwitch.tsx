@@ -1,6 +1,4 @@
 import { MdOutlineDarkMode, MdOutlineLightMode } from 'react-icons/md';
-import { useAppDispatch } from '../hooks/store';
-import { setTheme } from '../store/theme/themeSlice';
 
 export default function ThemeSwitch(
   { theme, onSwitch }:
