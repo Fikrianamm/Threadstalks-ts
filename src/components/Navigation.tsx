@@ -7,10 +7,19 @@ import {
   HOME, LEADERBOARDS, LOGIN, PROFILE, CREATETHREAD,
 } from '../routes/routeConstant';
 import ThemeSwitch from './ThemeSwitch';
-import { useAppSelector } from '../hooks/store';
+import { useAppDispatch, useAppSelector } from '../hooks/store';
+import { setTheme } from '../store/theme/themeSlice';
 
 export default function Navigation() {
   const authUser = useAppSelector((state) => state.authUser);
+  const theme = useAppSelector((state) => state.theme);
+  const dispatch = useAppDispatch();
+
+  function handleSwitch() {
+    const newTheme = theme !== 'dark' ? 'dark' : 'light';
+    dispatch(setTheme(newTheme));
+  }
+
   return (
     <div className="fixed bottom-0 w-full background bg-opacity-20 dark:bg-opacity-70 backdrop-blur-lg">
       <div className="flex items-center justify-center gap-6 py-3 text-neutral-500">
@@ -32,7 +41,7 @@ export default function Navigation() {
             <MdLogin size={24} />
           </Link>
         )}
-        <ThemeSwitch />
+        <ThemeSwitch theme={theme} onSwitch={handleSwitch} />
       </div>
     </div>
   );
