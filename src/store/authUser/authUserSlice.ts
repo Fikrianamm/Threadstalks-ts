@@ -39,7 +39,7 @@ export const asyncSetAuthUser = createAsyncThunk(
     } catch (error) {
       const message = getErrorMessage(error);
       toast.update(loginToast, {
-        render: 'Login gagal!', type: 'error', isLoading: false, autoClose: 3000,
+        render: 'Login gagal! email/password salah', type: 'error', isLoading: false, autoClose: 3000,
       });
       throw new Error(message);
     } finally {
