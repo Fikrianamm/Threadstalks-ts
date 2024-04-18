@@ -70,8 +70,16 @@ export const asyncPopulateThreadsAndUsers = createAsyncThunk('threads/asyncPopul
   try {
     const users = await getAllUsers();
     const threads = await getAllThreads();
-    dispatch(setUsers(users.users));
-    dispatch(setThreads(threads.threads));
+    if (users.status === 'success') {
+      dispatch(setUsers(users.users));
+    } else {
+      throw new Error(users.message);
+    }
+    if (threads.status === 'success') {
+      dispatch(setThreads(threads.threads));
+    } else {
+      throw new Error(threads.message);
+    }
   } catch (error) {
     const message = getErrorMessage(error);
     throw new Error(message);
