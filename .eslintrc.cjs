@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    'cypress/globals': true,
   },
   extends: ['airbnb', 'airbnb/hooks', 'airbnb-typescript', 'plugin:@typescript-eslint/recommended', 'plugin:react/recommended', 'plugin:storybook/recommended', 'plugin:storybook/recommended'],
   overrides: [
@@ -26,6 +27,7 @@ module.exports = {
   plugins: [
     '@typescript-eslint',
     'react',
+    'cypress',
   ],
   rules: {
     'react/react-in-jsx-scope': 'off',

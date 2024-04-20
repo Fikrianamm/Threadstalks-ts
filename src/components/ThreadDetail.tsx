@@ -72,14 +72,14 @@ export default function ThreadDetail() {
           <Vote
             onVote={handleVoteUp}
             isVoted={isVotedUp}
-            type='voteUp'
+            type="voteUp"
           >
             {data?.upVotesBy.length}
           </Vote>
           <Vote
             onVote={handleVoteDown}
             isVoted={isVotedDown}
-            type='voteDown'
+            type="voteDown"
           >
             {data?.downVotesBy.length}
           </Vote>
