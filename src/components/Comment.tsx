@@ -61,14 +61,14 @@ export default function Comment({ comment }:{ comment:IComment }) {
           <Vote
             onVote={handleVoteUp}
             isVoted={isVotedUp}
-            type='voteUp'
+            type="voteUp"
           >
             {comment.upVotesBy.length}
           </Vote>
           <Vote
             onVote={handleVoteDown}
             isVoted={isVotedDown}
-            type='voteDown'
+            type="voteDown"
           >
             {comment.downVotesBy.length}
           </Vote>

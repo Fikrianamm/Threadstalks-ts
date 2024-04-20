@@ -63,14 +63,14 @@ export default function ThreadItem({ thread }:{ thread:IThreadList }) {
         <Vote
           onVote={handleVoteUp}
           isVoted={isVotedUp}
-          type='voteUp'
+          type="voteUp"
         >
           {thread.upVotesBy.length}
         </Vote>
         <Vote
           onVote={handleVoteDown}
           isVoted={isVotedDown}
-          type='voteDown'
+          type="voteDown"
         >
           {thread.downVotesBy.length}
         </Vote>
